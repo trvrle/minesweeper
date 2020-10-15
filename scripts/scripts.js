@@ -48,7 +48,7 @@ function update_flag_count() {
             const flagCount = game.nmines - game.nmarked;
             e.textContent = String(flagCount);
         }
-    )
+    );
 }
 
 function prepare_dom() {
@@ -71,10 +71,14 @@ function prepare_dom() {
 
 function cell_click(index) {
     if (game.exploded) return;
+    if (game.nuncovered == 0)
+        startTimer();
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.uncover(cellRow, cellCol);
     render();
+    if(game.getStatus().done)
+        stopTimer();
 }
 
 function cell_mark(index) {
@@ -91,4 +95,22 @@ function get_cell_row(index) {
 
 function get_cell_col(index) {
     return index % game.ncols;
+}
+
+let t = 0;
+let timer = null;
+
+function startTimer() {
+    timer = setInterval(function() {
+        t++;
+        const x = document.querySelectorAll(".timer").forEach(
+            (e) => {
+                e.innerHTML = t;
+            }
+        )
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timer) window.clearInterval(timer);
 }
