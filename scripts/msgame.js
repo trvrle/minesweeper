@@ -74,8 +74,10 @@ let MSGame = (function(){
       // erase any marks (in case user placed them) and update counts
       for(let r = 0 ; r < this.nrows ; r ++ ) {
         for( let c = 0 ; c < this.ncols ; c ++ ) {
-          if(this.arr[r][c].state == STATE_MARKED)
+          if(this.arr[r][c].state == STATE_MARKED) {
             this.arr[r][c].state = STATE_HIDDEN;
+            this.nmarked--;
+          }
           this.arr[r][c].count = this.count(r,c);
         }
       }
