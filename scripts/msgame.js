@@ -101,12 +101,14 @@ let MSGame = (function(){
       console.log("uncover", row, col);
       // if coordinates invalid, refuse this request
       if( ! this.validCoord(row,col)) return false;
+      // if cell is marked, ignore this move
+      if( this.arr[row][col].state === STATE_MARKED ) return false;
       // if this is the very first move, populate the mines, but make
       // sure the current cell does not get a mine
       if( this.nuncovered === 0)
         this.sprinkleMines(row, col);
       // if cell is not hidden, ignore this move
-      if( this.arr[row][col].state !== STATE_HIDDEN) return false;
+      if( this.arr[row][col].state !== STATE_HIDDEN ) return false;
       // floodfill all 0-count cells
       const ff = (r,c) => {
         if( ! this.validCoord(r,c)) return;
