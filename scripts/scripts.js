@@ -22,15 +22,16 @@ function render_cell(row, col, i) {
     const rendering = game.getRendering();
     const grid = document.querySelector(".grid");
     const cellRendering = rendering[row][col];
-    if(cellRendering === "F") {
-        grid.childNodes[i].style.backgroundColor = "pink";
-    }
-    else if (cellRendering === "0") {
+
+    if(cellRendering === "F") 
+        grid.childNodes[i].style.backgroundColor = "pink"
+    else if (cellRendering === "0")
         grid.childNodes[i].style.backgroundColor = "blue";
-    }
-    else if (cellRendering != "H") {
+    else if (cellRendering != "H")
         grid.childNodes[i].style.backgroundColor = "black";
-    }
+
+    if (game.exploded && cellRendering === "M")
+        grid.childNodes[i].style.backgroundColor = "red"
 }
 
 function prepare_dom() {
