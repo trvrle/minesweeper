@@ -16,6 +16,7 @@ function render() {
         const cellCol = get_cell_col(i);
         render_cell(cellRow, cellCol, i);
     }
+    update_flag_count();
 }
 
 function render_cell(row, col, i) {
@@ -23,15 +24,31 @@ function render_cell(row, col, i) {
     const grid = document.querySelector(".grid");
     const cellRendering = rendering[row][col];
 
-    if(cellRendering === "F") 
-        grid.childNodes[i].style.backgroundColor = "pink"
-    else if (cellRendering === "0")
-        grid.childNodes[i].style.backgroundColor = "blue";
-    else if (cellRendering != "H")
-        grid.childNodes[i].style.backgroundColor = "black";
-
-    if (game.exploded && cellRendering === "M")
+    if (game.exploded && cellRendering === "M") // game has exploded and cell is a mine
         grid.childNodes[i].style.backgroundColor = "red"
+
+    if(cellRendering === "H") // cell is hidden
+        grid.childNodes[i].style.backgroundImage = "none";
+
+    if(cellRendering === "F") // cell is marked
+        grid.childNodes[i].style.backgroundImage = "url(img/flag.svg)";
+
+    if(cellRendering != "H" && cellRendering != "F" && cellRendering != "M") // cell is a number 0-9
+    {
+        if (cellRendering != 0)
+            grid.childNodes[i].innerHTML = cellRendering
+        grid.childNodes[i].style.backgroundImage = "none";
+        grid.childNodes[i].style.backgroundColor = "blue";
+    }
+}
+
+function update_flag_count() {
+    document.querySelectorAll(".flagCount").forEach(
+        (e) => {
+            const flagCount = game.nmines - game.nmarked;
+            e.textContent = String(flagCount);
+        }
+    );
 }
 
 function prepare_dom() {
@@ -53,13 +70,19 @@ function prepare_dom() {
 }
 
 function cell_click(index) {
+    if (game.exploded) return;
+    if (game.nuncovered == 0)
+        startTimer();
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.uncover(cellRow, cellCol);
     render();
+    if(game.getStatus().done)
+        stopTimer();
 }
 
 function cell_mark(index) {
+    if (game.exploded) return;
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.mark(cellRow, cellCol);
@@ -72,4 +95,22 @@ function get_cell_row(index) {
 
 function get_cell_col(index) {
     return index % game.ncols;
+}
+
+let t = 0;
+let timer = null;
+
+function startTimer() {
+    timer = setInterval(function() {
+        t++;
+        const x = document.querySelectorAll(".timer").forEach(
+            (e) => {
+                e.innerHTML = t;
+            }
+        )
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timer) window.clearInterval(timer);
 }
