@@ -3,17 +3,26 @@ window.addEventListener('load', main);
 let game = new MSGame()
 
 function main() {
-    document.querySelectorAll(".menuButton").forEach( (button) => {
+    // register callbacks for menu buttons
+    document.querySelectorAll(".menu-button").forEach( (button) => {
         const rows = button.getAttribute("rows");
         const cols = button.getAttribute("cols");
         const mines = button.getAttribute("mines");
         button.addEventListener("click", menu_button_click.bind(null, rows, cols, mines));
     });
+
+    // register callback for overlay 
+    document.querySelector("#overlay").addEventListener("click", () => {
+        document.querySelector("#overlay").classList.remove("active");
+        menu_button_click(game.nrows, game.ncols, game.nmines); // reset game
+    });
+
     menu_button_click(8, 10, 10); // default 8x10, 10 mines
 }
 
 function menu_button_click(rows, cols, mines) {
     game.init(rows, cols, mines);
+    reset_timer();
     prepare_dom();
     render();
 }
@@ -34,7 +43,7 @@ function render() {
 function render_cell(i, cellValue) {
     const cell = document.querySelector(".grid").childNodes[i];
 
-    if (game.exploded && cellValue === "M") // game has exploded and cell is a mine
+    if (cellValue === "M") // game has exploded and cell is a mine
         cell.style.backgroundColor = "red"
 
     if(cellValue === "H") // cell is hidden
@@ -51,15 +60,6 @@ function render_cell(i, cellValue) {
     }
 }
 
-function update_flag_count() {
-    document.querySelectorAll(".flagCount").forEach(
-        (e) => {
-            const flagCount = game.nmines - game.nmarked;
-            e.textContent = String(flagCount);
-        }
-    );
-}
-
 function prepare_dom() {
     const grid = document.querySelector(".grid");
     grid.innerHTML = ""; // remove all cells in grid
@@ -67,7 +67,6 @@ function prepare_dom() {
     for (let i = 0; i < nCells ; i++) { // create cells
         const cell = document.createElement("div");
         cell.className = "cell";
-        cell.setAttribute("cellIndex", i);
         cell.addEventListener("click", () => {
             cell_click(i);
         });
@@ -80,19 +79,24 @@ function prepare_dom() {
 }
 
 function cell_click(index) {
-    if (game.exploded) return;
     if (game.nuncovered == 0)
-        startTimer();
+        start_timer();
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.uncover(cellRow, cellCol);
     render();
-    if(game.getStatus().done)
-        stopTimer();
+    if (game.getStatus().done) {
+        stop_timer();
+        document.querySelector("#overlay").classList.toggle("active");
+        if (game.exploded)
+            show_lose();
+        else
+            show_win();
+    }
 }
 
 function cell_mark(index) {
-    if (game.exploded) return;
+    if (game.getStatus().done) return;
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.mark(cellRow, cellCol);
@@ -107,10 +111,19 @@ function get_cell_col(index) {
     return index % game.ncols;
 }
 
+function show_lose() {
+    console.log("lose");
+    document.querySelector(".win-lose").innerHTML = "You lost!"
+}
+
+function show_win() {
+    document.querySelector(".win-lose").innerHTML = "You won!"
+}
+
 let t = 0;
 let timer = null;
 
-function startTimer() {
+function start_timer() {
     timer = setInterval(function() {
         t++;
         const x = document.querySelectorAll(".timer").forEach(
@@ -121,6 +134,23 @@ function startTimer() {
     }, 1000);
 }
 
-function stopTimer() {
+function stop_timer() {
     if (timer) window.clearInterval(timer);
+}
+
+function reset_timer() {
+    stop_timer();
+    t = 0;
+    document.querySelectorAll(".timer").forEach( (e) => {
+        e.innerHTML = t;
+    });
+}
+
+function update_flag_count() {
+    document.querySelectorAll(".flag-count").forEach(
+        (e) => {
+            const flagCount = game.nmines - game.nmarked;
+            e.textContent = String(flagCount);
+        }
+    );
 }

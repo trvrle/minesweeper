@@ -1,4 +1,4 @@
-#container {
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,13 +9,26 @@
 
 .menu {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0.5em;
 }
 
-#game {
+.menu-button {
+  background-color: dodgerblue;
+  border: 2px solid dodgerblue;
+  color: white;
+  font-size: large;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+  transition-duration: 0.5s;
+}
+
+.menu-button:hover {
+  background-color: white;
+  color: dodgerblue;
+  cursor: pointer;
+}
+
+.game {
   background-color: aquamarine;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   height: auto;
@@ -23,7 +36,7 @@
   border-radius: 20px;
 }
 
-#game-header {
+.game-header {
   background-color: dodgerblue;
   color: white;
   display: flex;
@@ -34,6 +47,10 @@
 
 .game-info {
   font-size: large;
+}
+
+.game-content {
+  padding: 5px;
 }
 
 .grid {
@@ -53,4 +70,52 @@
   align-items: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: 0s;
+  transition: all 0s;
+  visibility: hidden;
+  animation: fadeOut 0.5s;
+  animation-fill-mode: forwards;
+}
+
+#overlay * {
+  pointer-events: none;
+}
+
+#overlay.active {
+  visibility: visible;
+  animation: fadeIn 2s;
+  animation-fill-mode: forwards;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: xx-large;
+}
+
+.win-lose {
+  margin: 10px;
+}
+
+.play-again {
+  margin: 10px;
 }
