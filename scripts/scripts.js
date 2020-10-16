@@ -3,7 +3,7 @@ window.addEventListener('load', main);
 let game = new MSGame()
 
 function main() {
-    document.querySelectorAll(".menuButton").forEach( (button) => {
+    document.querySelectorAll(".menu-button").forEach( (button) => {
         const rows = button.getAttribute("rows");
         const cols = button.getAttribute("cols");
         const mines = button.getAttribute("mines");
@@ -14,6 +14,7 @@ function main() {
 
 function menu_button_click(rows, cols, mines) {
     game.init(rows, cols, mines);
+    resetTimer();
     prepare_dom();
     render();
 }
@@ -123,4 +124,12 @@ function startTimer() {
 
 function stopTimer() {
     if (timer) window.clearInterval(timer);
+}
+
+function resetTimer() {
+    stopTimer();
+    t = 0;
+    document.querySelectorAll(".timer").forEach( (e) => {
+        e.innerHTML = t;
+    });
 }
