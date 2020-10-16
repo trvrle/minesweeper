@@ -71,3 +71,51 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: 0s;
+  transition: all 0s;
+  visibility: hidden;
+  animation: fadeOut 0.5s;
+  animation-fill-mode: forwards;
+}
+
+#overlay * {
+  pointer-events: none;
+}
+
+#overlay.active {
+  visibility: visible;
+  animation: fadeIn 2s;
+  animation-fill-mode: forwards;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: xx-large;
+}
+
+.win-lose {
+  margin: 10px;
+}
+
+.play-again {
+  margin: 10px;
+}

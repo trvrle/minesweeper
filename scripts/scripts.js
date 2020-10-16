@@ -3,12 +3,20 @@ window.addEventListener('load', main);
 let game = new MSGame()
 
 function main() {
+    // register callbacks for menu buttons
     document.querySelectorAll(".menu-button").forEach( (button) => {
         const rows = button.getAttribute("rows");
         const cols = button.getAttribute("cols");
         const mines = button.getAttribute("mines");
         button.addEventListener("click", menu_button_click.bind(null, rows, cols, mines));
     });
+
+    // register callback for overlay 
+    document.querySelector("#overlay").addEventListener("click", () => {
+        document.querySelector("#overlay").classList.remove("active");
+        menu_button_click(game.nrows, game.ncols, game.nmines); // reset game
+    });
+
     menu_button_click(8, 10, 10); // default 8x10, 10 mines
 }
 
@@ -59,7 +67,6 @@ function prepare_dom() {
     for (let i = 0; i < nCells ; i++) { // create cells
         const cell = document.createElement("div");
         cell.className = "cell";
-        cell.setAttribute("cellIndex", i);
         cell.addEventListener("click", () => {
             cell_click(i);
         });
@@ -80,6 +87,7 @@ function cell_click(index) {
     render();
     if (game.getStatus().done) {
         stop_timer();
+        document.querySelector("#overlay").classList.toggle("active");
         if (game.exploded)
             show_lose();
         else
@@ -101,6 +109,15 @@ function get_cell_row(index) {
 
 function get_cell_col(index) {
     return index % game.ncols;
+}
+
+function show_lose() {
+    console.log("lose");
+    document.querySelector(".win-lose").innerHTML = "You lost!"
+}
+
+function show_win() {
+    document.querySelector(".win-lose").innerHTML = "You won!"
 }
 
 let t = 0;
@@ -130,9 +147,8 @@ function reset_timer() {
 }
 
 function update_flag_count() {
-    document.querySelectorAll(".flagCount").forEach(
+    document.querySelectorAll(".flag-count").forEach(
         (e) => {
-            console.log("mines: " + game.nmines + " marked: " + game.nmarked);
             const flagCount = game.nmines - game.nmarked;
             e.textContent = String(flagCount);
         }
