@@ -44,7 +44,7 @@ function render_cell(i, cellValue) {
     const cell = document.querySelector(".grid").childNodes[i];
 
     if (cellValue === "M") // game has exploded and cell is a mine
-        cell.style.backgroundColor = "red"
+        cell.style.backgroundImage = "url(img/bomb.svg)";
 
     if(cellValue === "H") // cell is hidden
         cell.style.backgroundImage = "none";
