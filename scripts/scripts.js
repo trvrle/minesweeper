@@ -14,7 +14,7 @@ function main() {
 
 function menu_button_click(rows, cols, mines) {
     game.init(rows, cols, mines);
-    resetTimer();
+    reset_timer();
     prepare_dom();
     render();
 }
@@ -35,7 +35,7 @@ function render() {
 function render_cell(i, cellValue) {
     const cell = document.querySelector(".grid").childNodes[i];
 
-    if (game.exploded && cellValue === "M") // game has exploded and cell is a mine
+    if (cellValue === "M") // game has exploded and cell is a mine
         cell.style.backgroundColor = "red"
 
     if(cellValue === "H") // cell is hidden
@@ -50,15 +50,6 @@ function render_cell(i, cellValue) {
         cell.style.backgroundImage = "none";
         cell.style.backgroundColor = "blue";
     }
-}
-
-function update_flag_count() {
-    document.querySelectorAll(".flagCount").forEach(
-        (e) => {
-            const flagCount = game.nmines - game.nmarked;
-            e.textContent = String(flagCount);
-        }
-    );
 }
 
 function prepare_dom() {
@@ -81,19 +72,23 @@ function prepare_dom() {
 }
 
 function cell_click(index) {
-    if (game.exploded) return;
     if (game.nuncovered == 0)
-        startTimer();
+        start_timer();
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.uncover(cellRow, cellCol);
     render();
-    if(game.getStatus().done)
-        stopTimer();
+    if (game.getStatus().done) {
+        stop_timer();
+        if (game.exploded)
+            show_lose();
+        else
+            show_win();
+    }
 }
 
 function cell_mark(index) {
-    if (game.exploded) return;
+    if (game.getStatus().done) return;
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.mark(cellRow, cellCol);
@@ -111,7 +106,7 @@ function get_cell_col(index) {
 let t = 0;
 let timer = null;
 
-function startTimer() {
+function start_timer() {
     timer = setInterval(function() {
         t++;
         const x = document.querySelectorAll(".timer").forEach(
@@ -122,14 +117,24 @@ function startTimer() {
     }, 1000);
 }
 
-function stopTimer() {
+function stop_timer() {
     if (timer) window.clearInterval(timer);
 }
 
-function resetTimer() {
-    stopTimer();
+function reset_timer() {
+    stop_timer();
     t = 0;
     document.querySelectorAll(".timer").forEach( (e) => {
         e.innerHTML = t;
     });
+}
+
+function update_flag_count() {
+    document.querySelectorAll(".flagCount").forEach(
+        (e) => {
+            console.log("mines: " + game.nmines + " marked: " + game.nmarked);
+            const flagCount = game.nmines - game.nmarked;
+            e.textContent = String(flagCount);
+        }
+    );
 }
