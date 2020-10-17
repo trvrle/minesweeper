@@ -15,8 +15,11 @@
                 </div>
                 <div class="game">
                     <div class="game-header">
-                        <span class="game-info flag-count"></span>
-                        <span class="game-info timer"></span>
+                        <div class="flag-info">
+                            <img class="flag-image" src="img/flag.svg">
+                            <span class="flag-count"></span>
+                        </div>
+                        <span class="timer"></span>
                     </div>
                     <div class="game-content">
                         <div class="grid"></div>
@@ -25,8 +28,13 @@
             </div>
             <div id="overlay">
                 <div class="overlay-content">
-                    <div class="win-lose"></div>
-                    <div class="play-again">Click anywhere to play again</div>
+                    <div class="overlay-text win-lose"></div>
+                    <div class="overlay-text">
+                        Time: <span class="timer"></span>
+                    </div>
+                    <div class="overlay-text">
+                        Click anywhere to play again
+                    </div>
                 </div>
             </div>
         </div>

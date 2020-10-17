@@ -17,7 +17,7 @@ function main() {
         menu_button_click(game.nrows, game.ncols, game.nmines); // reset game
     });
 
-    menu_button_click(8, 10, 10); // default 8x10, 10 mines
+    document.querySelector(".menu-button").click(); // click first button to start default game
 }
 
 function menu_button_click(rows, cols, mines) {
@@ -29,8 +29,8 @@ function menu_button_click(rows, cols, mines) {
 
 function render() {
     const grid = document.querySelector(".grid");
-    const gameRendering = game.getRendering();
     grid.style.gridTemplateColumns = `repeat(${game.ncols}, 1fr)`;
+    const gameRendering = game.getRendering();
     for (let i = 0; i < game.nrows * game.ncols; i++) {
         const cellRow = get_cell_row(i);
         const cellCol = get_cell_col(i);
@@ -94,17 +94,19 @@ function resizeCells() {
 function cell_click(index) {
     if (game.nuncovered == 0)
         start_timer();
+
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.uncover(cellRow, cellCol);
     render();
+
     if (game.getStatus().done) {
         stop_timer();
-        document.querySelector("#overlay").classList.toggle("active");
         if (game.exploded)
             show_lose();
         else
             show_win();
+        document.querySelector("#overlay").classList.toggle("active");
     }
 }
 
@@ -125,7 +127,6 @@ function get_cell_col(index) {
 }
 
 function show_lose() {
-    console.log("lose");
     document.querySelector(".win-lose").innerHTML = "You lost!"
 }
 

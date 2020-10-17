@@ -37,14 +37,22 @@
 .game-header {
   background-color: dodgerblue;
   color: white;
+  font-size: large;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 15px;
   border-radius: 20px 20px 0px 0px;
 }
 
-.game-info {
-  font-size: large;
+.flag-info {
+  display: flex;
+  align-items: center;
+}
+
+.flag-image {
+  max-height: 1.25em;
+  padding-right: 3px;
 }
 
 .game-content {
@@ -60,6 +68,8 @@
   border: 1px solid black;
   color: white;
   font-size: 1.75em;
+  max-height: 50px;
+  max-width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,10 +117,6 @@
   font-size: xx-large;
 }
 
-.win-lose {
-  margin: 10px;
-}
-
-.play-again {
+.overlay-text {
   margin: 10px;
 }
