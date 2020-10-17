@@ -83,12 +83,12 @@ function resizeCells() {
     // use game.nrows and viewport height to determine cell size
     // ex. if viewport height is 610 pixels, then subtract 210 and divide by 8 rows
     // (610 - 210)/8 = 400/8 = 50 -> cell size is 50x50
-    // const clientHeight = document.querySelector("html").clientHeight; // 610
-    // const cellSize = (clientHeight - 210) / game.nrows;
-    // document.querySelectorAll(".cell").forEach( (cell) => {
-    //     cell.style.height = cellSize + "px";
-    //     cell.style.width = cellSize + "px";
-    // });
+    const clientHeight = document.querySelector("html").clientHeight; // 610
+    const cellSize = (clientHeight - 210) / game.nrows;
+    document.querySelectorAll(".cell").forEach( (cell) => {
+        cell.style.height = cellSize + "px";
+        cell.style.width = cellSize + "px";
+    });
 }
 
 function cell_click(index) {
