@@ -23,7 +23,8 @@
   cursor: pointer;
 }
 
-.menu-button:hover, .menu-button.active {
+.menu-button:hover,
+.menu-button.active {
   background-color: white;
   color: dodgerblue;
 }
@@ -45,14 +46,18 @@
   border-radius: 20px 20px 0px 0px;
 }
 
-.flag-info {
+.game-header-info {
   display: flex;
   align-items: center;
 }
 
-.flag-image {
+.game-header-image {
   max-height: 1.25em;
   padding-right: 3px;
+}
+
+.clock {
+  padding-right: 5px;
 }
 
 .game-content {
@@ -117,6 +122,17 @@
   font-size: xx-large;
 }
 
-.overlay-text {
+.overlay-item {
   margin: 10px;
+}
+
+.time-result {
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.time-result > img {
+  padding-right: 10px;
+  max-height: 1em;
 }

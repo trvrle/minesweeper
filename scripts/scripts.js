@@ -134,11 +134,11 @@ function get_cell_col(index) {
 }
 
 function show_lose() {
-    document.querySelector(".win-lose").innerHTML = "You lost!"
+    document.querySelector(".result").innerHTML = "You lost!"
 }
 
 function show_win() {
-    document.querySelector(".win-lose").innerHTML = "You won!"
+    document.querySelector(".result").innerHTML = "You won!"
 }
 
 let t = 0;

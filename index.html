@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Minesweeper</title>
         <link rel="stylesheet" href="styles/styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
@@ -15,11 +16,14 @@
                 </div>
                 <div class="game">
                     <div class="game-header">
-                        <div class="flag-info">
-                            <img class="flag-image" src="img/flag.svg">
+                        <div class="game-header-info">
+                            <img class="game-header-image" src="img/flag.svg">
                             <span class="flag-count"></span>
                         </div>
-                        <span class="timer"></span>
+                        <div class="game-header-info">
+                            <img class="game-header-image clock" src="img/clock.svg">
+                            <span class="timer"></span>
+                        </div>
                     </div>
                     <div class="game-content">
                         <div class="grid"></div>
@@ -28,12 +32,12 @@
             </div>
             <div id="overlay">
                 <div class="overlay-content">
-                    <div class="overlay-text win-lose"></div>
-                    <div class="overlay-text">
-                        Time: <span class="timer"></span>
+                    <div class="overlay-item result"></div>
+                    <div class="overlay-item time-result">
+                        <img src="img/clock.svg"> <span class="timer"></span>
                     </div>
-                    <div class="overlay-text">
-                        Click anywhere to play again
+                    <div class="overlay-item">
+                        Click anywhere to play again.
                     </div>
                 </div>
             </div>
