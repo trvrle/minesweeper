@@ -20,12 +20,12 @@
   margin: 10px;
   padding: 10px;
   transition-duration: 0.5s;
+  cursor: pointer;
 }
 
-.menu-button:hover {
+.menu-button:hover, .menu-button.active {
   background-color: white;
   color: dodgerblue;
-  cursor: pointer;
 }
 
 .game {

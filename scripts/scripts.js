@@ -8,7 +8,13 @@ function main() {
         const rows = button.getAttribute("rows");
         const cols = button.getAttribute("cols");
         const mines = button.getAttribute("mines");
-        button.addEventListener("click", menu_button_click.bind(null, rows, cols, mines));
+        button.addEventListener("click", () => {
+            document.querySelectorAll(".active").forEach((e) =>{
+                e.classList.remove("active");
+            })
+            button.classList.add("active");
+            menu_button_click(rows, cols, mines)
+        });
     });
 
     // register callback for overlay 
@@ -17,7 +23,8 @@ function main() {
         menu_button_click(game.nrows, game.ncols, game.nmines); // reset game
     });
 
-    document.querySelector(".menu-button").click(); // click first button to start default game
+    // click first button to start default game
+    document.querySelector(".menu-button").click(); 
 }
 
 function menu_button_click(rows, cols, mines) {
