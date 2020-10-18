@@ -20,42 +20,52 @@
   margin: 10px;
   padding: 10px;
   transition-duration: 0.5s;
+  cursor: pointer;
 }
 
-.menu-button:hover {
+.menu-button:hover,
+.menu-button.active {
   background-color: white;
   color: dodgerblue;
-  cursor: pointer;
 }
 
 .game {
   background-color: aquamarine;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  height: auto;
-  width: auto;
   border-radius: 20px;
 }
 
 .game-header {
   background-color: dodgerblue;
   color: white;
+  font-size: large;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 15px;
   border-radius: 20px 20px 0px 0px;
 }
 
-.game-info {
-  font-size: large;
+.game-header-info {
+  display: flex;
+  align-items: center;
+}
+
+.game-header-image {
+  max-height: 1.25em;
+  padding-right: 3px;
+}
+
+.clock {
+  padding-right: 5px;
 }
 
 .game-content {
-  padding: 5px;
+  padding: 15px;
 }
 
 .grid {
   display: grid;
-  margin: 10px;
   border: 1px solid black;
 }
 
@@ -63,8 +73,8 @@
   border: 1px solid black;
   color: white;
   font-size: 1.75em;
-  height: 50px;
-  width: 50px;
+  max-height: 50px;
+  max-width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,10 +122,17 @@
   font-size: xx-large;
 }
 
-.win-lose {
+.overlay-item {
   margin: 10px;
 }
 
-.play-again {
-  margin: 10px;
+.time-result {
+  display: flex;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.time-result > img {
+  padding-right: 10px;
+  max-height: 1em;
 }

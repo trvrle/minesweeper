@@ -8,7 +8,13 @@ function main() {
         const rows = button.getAttribute("rows");
         const cols = button.getAttribute("cols");
         const mines = button.getAttribute("mines");
-        button.addEventListener("click", menu_button_click.bind(null, rows, cols, mines));
+        button.addEventListener("click", () => {
+            document.querySelectorAll(".active").forEach((e) =>{
+                e.classList.remove("active");
+            })
+            button.classList.add("active");
+            menu_button_click(rows, cols, mines)
+        });
     });
 
     // register callback for overlay 
@@ -17,7 +23,8 @@ function main() {
         menu_button_click(game.nrows, game.ncols, game.nmines); // reset game
     });
 
-    menu_button_click(8, 10, 10); // default 8x10, 10 mines
+    // click first button to start default game
+    document.querySelector(".menu-button").click(); 
 }
 
 function menu_button_click(rows, cols, mines) {
@@ -29,8 +36,8 @@ function menu_button_click(rows, cols, mines) {
 
 function render() {
     const grid = document.querySelector(".grid");
-    const gameRendering = game.getRendering();
     grid.style.gridTemplateColumns = `repeat(${game.ncols}, 1fr)`;
+    const gameRendering = game.getRendering();
     for (let i = 0; i < game.nrows * game.ncols; i++) {
         const cellRow = get_cell_row(i);
         const cellCol = get_cell_col(i);
@@ -44,7 +51,7 @@ function render_cell(i, cellValue) {
     const cell = document.querySelector(".grid").childNodes[i];
 
     if (cellValue === "M") // game has exploded and cell is a mine
-        cell.style.backgroundColor = "red"
+        cell.style.backgroundImage = "url(img/bomb.svg)";
 
     if(cellValue === "H") // cell is hidden
         cell.style.backgroundImage = "none";
@@ -76,22 +83,37 @@ function prepare_dom() {
         })
         grid.appendChild(cell);
     }
+    resizeCells();
+}
+
+function resizeCells() {
+    // use game.nrows and viewport height to determine cell size
+    // ex. if viewport height is 610 pixels, then subtract 210 and divide by 8 rows
+    // (610 - 210)/8 = 400/8 = 50 -> cell size is 50x50
+    const clientHeight = document.querySelector("html").clientHeight; // 610
+    const cellSize = (clientHeight - 210) / game.nrows;
+    document.querySelectorAll(".cell").forEach( (cell) => {
+        cell.style.height = cellSize + "px";
+        cell.style.width = cellSize + "px";
+    });
 }
 
 function cell_click(index) {
     if (game.nuncovered == 0)
         start_timer();
+
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
     game.uncover(cellRow, cellCol);
     render();
+
     if (game.getStatus().done) {
         stop_timer();
-        document.querySelector("#overlay").classList.toggle("active");
         if (game.exploded)
             show_lose();
         else
             show_win();
+        document.querySelector("#overlay").classList.toggle("active");
     }
 }
 
@@ -112,12 +134,11 @@ function get_cell_col(index) {
 }
 
 function show_lose() {
-    console.log("lose");
-    document.querySelector(".win-lose").innerHTML = "You lost!"
+    document.querySelector(".result").innerHTML = "You lost!"
 }
 
 function show_win() {
-    document.querySelector(".win-lose").innerHTML = "You won!"
+    document.querySelector(".result").innerHTML = "You won!"
 }
 
 let t = 0;
