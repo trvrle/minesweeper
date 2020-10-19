@@ -5,8 +5,16 @@ let game = new MSGame()
 function main() {
     // register callbacks for menu buttons
     document.querySelectorAll(".menu-button").forEach( (button) => {
-        const rows = button.getAttribute("rows");
-        const cols = button.getAttribute("cols");
+        let rows = 0;
+        let cols = 0;
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            rows = button.getAttribute("landscape-rows");
+            cols = button.getAttribute("landscape-cols");
+        }
+        else {
+            rows = button.getAttribute("portrait-rows");
+            cols = button.getAttribute("portrait-cols");
+        }
         const mines = button.getAttribute("mines");
         button.addEventListener("click", () => {
             document.querySelectorAll(".active").forEach((e) =>{
@@ -87,11 +95,23 @@ function prepare_dom() {
 }
 
 function resizeCells() {
+    // landscape
     // use game.nrows and viewport height to determine cell size
     // ex. if viewport height is 610 pixels, then subtract 210 and divide by 8 rows
     // (610 - 210)/8 = 400/8 = 50 -> cell size is 50x50
-    const clientHeight = document.querySelector("html").clientHeight; // 610
-    const cellSize = (clientHeight - 210) / game.nrows;
+    let cellSize = 0;
+    if (window.matchMedia("(orientation: landscape)").matches) { 
+        const clientHeight = document.querySelector("html").clientHeight;
+        const offset = 210;
+        cellSize = (clientHeight - offset) / game.nrows;
+    }
+    // portrait
+    // use game.ncols and viewport width instead
+    else {
+        const clientWidth = document.querySelector("html").clientWidth;
+        const offset = 30;
+        cellSize = (clientWidth - offset) / game.ncols;
+    }
     document.querySelectorAll(".cell").forEach( (cell) => {
         cell.style.height = cellSize + "px";
         cell.style.width = cellSize + "px";
