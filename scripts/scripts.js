@@ -123,12 +123,11 @@ function resizeCells() {
 }
 
 function cell_click(index) {
-    if (game.nuncovered == 0)
-        start_timer();
-
+    const isNewGame = game.nuncovered == 0;
     const cellRow = get_cell_row(index);
     const cellCol = get_cell_col(index);
-    game.uncover(cellRow, cellCol);
+    if (game.uncover(cellRow, cellCol) && isNewGame)
+        start_timer();
     render();
 
     if (game.getStatus().done) {
