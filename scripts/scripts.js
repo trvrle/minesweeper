@@ -46,6 +46,7 @@ function menu_button_click(rows, cols, mines) {
     render();
 }
 
+// renders grid size, cells, and flag count
 function render() {
     const grid = document.querySelector(".grid");
     grid.style.gridTemplateColumns = `repeat(${game.ncols}, 1fr)`;
@@ -59,6 +60,7 @@ function render() {
     update_flag_count();
 }
 
+// renders a single cell at i
 function render_cell(i, cellValue) {
     const cell = document.querySelector(".grid").childNodes[i];
 
@@ -79,6 +81,7 @@ function render_cell(i, cellValue) {
     }
 }
 
+// registers callback for cells and adds them to the grid
 function prepare_dom() {
     const grid = document.querySelector(".grid");
     grid.innerHTML = ""; // remove all cells in grid
@@ -105,10 +108,10 @@ function prepare_dom() {
     resizeCells();
 }
 
+// calculates cell size depending on the rows and the display height
 function resizeCells() {
-    // landscape
-    // use game.nrows and viewport height to determine cell size
-    // ex. if viewport height is 610 pixels, then subtract 210 and divide by 8 rows
+    // use game.nrows and client height to determine cell size
+    // ex. if client height is 610px, then subtract 210px offset and divide by 8 rows
     // (610 - 210)/8 = 400/8 = 50 -> cell size is 50x50
     const clientHeight = document.querySelector("html").clientHeight;
     const offset = 210;
