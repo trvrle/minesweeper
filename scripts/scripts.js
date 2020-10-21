@@ -3,6 +3,10 @@ window.addEventListener('load', main);
 let game = new MSGame()
 
 function main() {
+    // disable context menu
+    $(document).contextmenu(function() {
+        return false;
+    });
     // register callbacks for menu buttons
     document.querySelectorAll(".menu-button").forEach( (button) => {
         let rows = 0;
@@ -86,17 +90,14 @@ function prepare_dom() {
             cell_click(i);
         });
         if (window.matchMedia("(orientation: landscape)").matches) {
-            cell.addEventListener("contextmenu", e => {
-                e.preventDefault();
+            cell.addEventListener("contextmenu", () => {
                 cell_mark(i);
             });
         }
         grid.appendChild(cell);
         if (window.matchMedia("(orientation: portrait)").matches) { 
             cell.id = "cell" + i;
-            $("#cell" + i).bind("taphold", function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+            $("#cell" + i).bind("taphold", () => {
                 cell_mark(i);
             });
         }
