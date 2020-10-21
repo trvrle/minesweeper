@@ -3,12 +3,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .menu {
   display: flex;
+  align-items: center;
 }
 
 .menu-button {
@@ -64,6 +65,7 @@
   padding: 15px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .grid {
