@@ -3,16 +3,21 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Minesweeper</title>
+        <link rel="stylesheet" href="https://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.js"></script>
         <link rel="stylesheet" href="styles/styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
-
+        <link rel="stylesheet" href="styles/mobile.css" media="(orientation: portrait)">
     </head>
     <body>
         <div class="container">
             <div class="minesweeper">
                 <div class="menu">
-                    <div class="menu-button" level="easy" rows="8" cols="10" mines="10">Easy</div>
-                    <div class="menu-button" level="medium" rows="14" cols="18" mines="40">Medium</div>
+                    <div class="menu-button" landscape-rows="8" landscape-cols="10" 
+                    portrait-rows="13" portrait-cols="6" mines="10">Easy</div>
+                    <div class="menu-button" landscape-rows="14" landscape-cols="18" 
+                    portrait-rows="19" portrait-cols="9" mines="40">Medium</div>
                 </div>
                 <div class="game">
                     <div class="game-header">
@@ -37,7 +42,7 @@
                         <img src="img/clock.svg"> <span class="timer"></span>
                     </div>
                     <div class="overlay-item">
-                        Click anywhere to play again.
+                        Click to play again.
                     </div>
                 </div>
             </div>
