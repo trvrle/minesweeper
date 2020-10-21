@@ -85,11 +85,21 @@ function prepare_dom() {
         cell.addEventListener("click", () => {
             cell_click(i);
         });
-        cell.addEventListener("contextmenu", e => {
-            e.preventDefault();
-            cell_mark(i);
-        })
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            cell.addEventListener("contextmenu", e => {
+                e.preventDefault();
+                cell_mark(i);
+            });
+        }
         grid.appendChild(cell);
+        if (window.matchMedia("(orientation: portrait)").matches) { 
+            cell.id = "cell" + i;
+            $("#cell" + i).bind("taphold", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                cell_mark(i);
+            });
+        }
     }
     resizeCells();
 }
